@@ -20,7 +20,7 @@ public class CheckListener implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         APlayer aPlayer = PlayerDataManager.get(e.getPlayer());
         VertexAC.getCheckManager().registerChecks(e.getPlayer());
-        if (aPlayer.toggleAlertsOnJoin() && !aPlayer.sendAlerts() && e.getPlayer().hasPermission("swagger.alerts")) {
+        if (aPlayer.toggleAlertsOnJoin() && !aPlayer.sendAlerts() && e.getPlayer().hasPermission("vertex.alerts")) {
             aPlayer.setSendAlerts(true);
             Logger.log(aPlayer.bukkitPlayer, "§aAlerts enabled");
         }
