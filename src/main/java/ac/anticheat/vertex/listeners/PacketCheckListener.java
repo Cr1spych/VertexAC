@@ -3,13 +3,12 @@ package ac.anticheat.vertex.listeners;
 import ac.anticheat.vertex.VertexAC;
 import ac.anticheat.vertex.checks.Check;
 import ac.anticheat.vertex.checks.type.PacketCheck;
-import ac.anticheat.vertex.managers.CheckManager;
 import ac.anticheat.vertex.utils.PacketUtil;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.event.PacketSendEvent;
 import org.bukkit.entity.Player;
 
-public class PacketListener implements com.github.retrooper.packetevents.event.PacketListener {
+public class PacketCheckListener implements com.github.retrooper.packetevents.event.PacketListener {
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {

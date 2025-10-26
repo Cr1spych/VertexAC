@@ -1,10 +1,7 @@
 package ac.anticheat.vertex;
 
 import ac.anticheat.vertex.commands.VertexCommand;
-import ac.anticheat.vertex.listeners.CheckListener;
-import ac.anticheat.vertex.listeners.GatekeeperListener;
-import ac.anticheat.vertex.listeners.InventoryListener;
-import ac.anticheat.vertex.listeners.PacketListener;
+import ac.anticheat.vertex.listeners.*;
 import ac.anticheat.vertex.managers.CheckManager;
 import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.event.PacketListenerPriority;
@@ -42,14 +39,15 @@ public class VertexAC extends JavaPlugin {
 
     private void registerPacketListeners() {
         PacketEvents.getAPI().getEventManager().registerListener(
-                new PacketListener(), PacketListenerPriority.NORMAL);
+                new PacketCheckListener(), PacketListenerPriority.NORMAL);
 
         PacketEvents.getAPI().getEventManager().registerListener(
                 new InventoryListener(), PacketListenerPriority.NORMAL);
     }
 
     private void registerBukkitListeners() {
-        getServer().getPluginManager().registerEvents(new CheckListener(), this);
+        getServer().getPluginManager().registerEvents(new TickListener(), this);
+        getServer().getPluginManager().registerEvents(new BukkitCheckListener(), this);
         getServer().getPluginManager().registerEvents(gatekeeperListener, this);
     }
 
