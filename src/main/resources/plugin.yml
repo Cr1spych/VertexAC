@@ -1,0 +1,24 @@
+name: Vertex
+version: '2.0.1'
+main: ac.anticheat.vertex.VertexAC
+api-version: '1.16'
+author: Rukzell
+depend: [packetevents]
+
+commands:
+  vertex:
+    description: Vertex command
+    usage: /vertex help
+    permission: vertex.commands
+
+permissions:
+  vertex.alerts:
+    default: op
+  vertex.reload:
+    default: op
+  vertex.checks:
+    default: op
+  vertex.help:
+    default: op
+  vertex.ml:
+    default: op
