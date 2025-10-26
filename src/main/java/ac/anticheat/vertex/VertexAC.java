@@ -5,6 +5,7 @@ import ac.anticheat.vertex.listeners.*;
 import ac.anticheat.vertex.managers.CheckManager;
 import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.event.PacketListenerPriority;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class VertexAC extends JavaPlugin {
@@ -30,6 +31,9 @@ public class VertexAC extends JavaPlugin {
 
         new VertexCommand(this);
         registerBukkitListeners();
+
+        // метрики
+        Metrics metrics = new Metrics(this, 27725);
     }
 
     @Override
@@ -47,7 +51,6 @@ public class VertexAC extends JavaPlugin {
 
     private void registerBukkitListeners() {
         getServer().getPluginManager().registerEvents(new TickListener(), this);
-        getServer().getPluginManager().registerEvents(new BukkitCheckListener(), this);
         getServer().getPluginManager().registerEvents(gatekeeperListener, this);
     }
 

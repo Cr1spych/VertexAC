@@ -14,21 +14,20 @@ public class AuraD extends Check implements PacketCheck {
     public AuraD(APlayer aPlayer) {
         super("AuraD", aPlayer);
         this.maxBuffer = Config.getInt(getConfigPath() + ".max-buffer", 1);
+        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.5);
     }
 
     private int buffer;
     private double maxBuffer;
+    private double bufferDecrease;
 
     // check vars
     private double deltaYaw;
     private double lastDeltaYaw;
 
     // check config
-    private final double max = 60;
+    private final double max = 50;
     private final double min = 2.5;
-
-    private int vls;
-    private int a;
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
@@ -41,15 +40,9 @@ public class AuraD extends Check implements PacketCheck {
                 if (buffer > maxBuffer) {
                     flag("снапы задетектило");
                     buffer = 0;
-                    vls++;
                 }
             } else {
-                if (buffer > 0) buffer--;
-            }
-
-            if (deltaYaw > 45 && vls > 0) {
-                flag("снапы задетектило");
-                vls = 0;
+                if (buffer > 0) buffer -= bufferDecrease;
             }
         }
     }
@@ -57,5 +50,6 @@ public class AuraD extends Check implements PacketCheck {
     @Override
     public void onReload() {
         this.maxBuffer = Config.getDouble(getConfigPath() + ".max-buffer", 1);
+        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.5);
     }
 }

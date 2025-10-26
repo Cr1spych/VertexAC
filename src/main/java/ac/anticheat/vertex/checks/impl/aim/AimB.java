@@ -13,14 +13,17 @@ import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 public class AimB extends Check implements PacketCheck {
     public AimB(APlayer aPlayer) {
         super("AimB", aPlayer);
+        this.maxBuffer = Config.getInt(getConfigPath() + ".max-buffer", 5);
+        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.1);
     }
 
     private double buffer;
     private double maxBuffer;
+    private double bufferDecrease;
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
-        if (!isEnabled() || aPlayer.bukkitPlayer.isInsideVehicle() || !aPlayer.actionData.inCombat()) return;
+        if (!isEnabled() || aPlayer.bukkitPlayer.isInsideVehicle() || !aPlayer.actionData.inCombat() || aPlayer.rotationData.isCinematicRotation()) return;
 
         if (PacketUtil.isRotation(event)) {
             float deltaYaw = Math.abs(aPlayer.rotationData.deltaYaw);
@@ -36,7 +39,7 @@ public class AimB extends Check implements PacketCheck {
                     buffer = 0;
                 }
             } else {
-                if (buffer > 0) buffer--;
+                if (buffer > 0) buffer -= bufferDecrease;
             }
         }
     }
@@ -44,5 +47,6 @@ public class AimB extends Check implements PacketCheck {
     @Override
     public void onReload() {
         this.maxBuffer = Config.getInt(getConfigPath() + ".max-buffer", 5);
+        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.1);
     }
 }

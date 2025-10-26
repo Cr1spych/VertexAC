@@ -15,12 +15,14 @@ public class AuraC extends Check implements PacketCheck {
     public AuraC(APlayer player) {
         super("AuraC", player);
         this.maxBuffer = Config.getDouble(getConfigPath() + ".max-buffer", 1);
+        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 1);
     }
 
     private final EvictingList<Long> attackDelays = new EvictingList<>(3);
     private long lastAttackTime;
     private double buffer;
     private double maxBuffer;
+    private double bufferDecrease;
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
@@ -39,7 +41,7 @@ public class AuraC extends Check implements PacketCheck {
                             buffer = 0;
                         }
                     } else if (buffer > 0) {
-                        buffer--;
+                        buffer -= bufferDecrease;
                     }
                 }
             }
@@ -50,5 +52,6 @@ public class AuraC extends Check implements PacketCheck {
     @Override
     public void onReload() {
         this.maxBuffer = Config.getDouble(getConfigPath() + ".max-buffer", 1);
+        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 1);
     }
 }

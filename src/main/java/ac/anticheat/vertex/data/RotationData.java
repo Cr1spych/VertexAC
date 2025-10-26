@@ -3,12 +3,14 @@ package ac.anticheat.vertex.data;
 import ac.anticheat.vertex.checks.Check;
 import ac.anticheat.vertex.checks.type.PacketCheck;
 import ac.anticheat.vertex.player.APlayer;
+import ac.anticheat.vertex.utils.GraphUtil;
 import ac.anticheat.vertex.utils.PacketUtil;
+import ac.anticheat.vertex.utils.kireiko.millennium.math.Statistics;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerRotation;
+import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class RotationData extends Check implements PacketCheck {
 
@@ -23,6 +25,7 @@ public class RotationData extends Check implements PacketCheck {
     private final List<Double> yawSamples = new ArrayList<>();
     private final List<Double> pitchSamples = new ArrayList<>();
     private boolean cinematicRotation = false;
+    private int isTotallyNotCinematic = 0;
 
     public RotationData(APlayer aPlayer) {
         super("RotationData", aPlayer);
@@ -72,17 +75,41 @@ public class RotationData extends Check implements PacketCheck {
             lastHighRate = now;
         }
 
-        if (deltaYaw > 0.0 && deltaPitch > 0.0) {
-            yawSamples.add((double) deltaYaw);
-            pitchSamples.add((double) deltaPitch);
-        }
+        yawSamples.add((double) deltaYaw);
+        pitchSamples.add((double) deltaPitch);
 
         if (yawSamples.size() >= 20 && pitchSamples.size() >= 20) {
-            int negativesYaw = countNegatives(yawSamples);
-            int negativesPitch = countNegatives(pitchSamples);
+            Set<Double> shannonYaw = new HashSet<>(), shannonPitch = new HashSet<>();
+            List<Double> stackYaw = new ArrayList<>(), stackPitch = new ArrayList<>();
 
-            int positivesYaw = countPositives(yawSamples);
-            int positivesPitch = countPositives(pitchSamples);
+            for (Double yawSample : yawSamples) {
+                stackYaw.add(yawSample);
+                if (stackYaw.size() >= 10) {
+                    shannonYaw.add(Statistics.getShannonEntropy(stackYaw));
+                    stackYaw.clear();
+                }
+            }
+
+            for (Double pitchSample : pitchSamples) {
+                stackPitch.add(pitchSample);
+                if (stackPitch.size() >= 10) {
+                    shannonPitch.add(Statistics.getShannonEntropy(stackPitch));
+                    stackPitch.clear();
+                }
+            }
+
+            if (shannonYaw.size() != 1 || shannonPitch.size() != 1 ||
+                !shannonYaw.toArray()[0].equals(shannonPitch.toArray()[0])) {
+                isTotallyNotCinematic = 20;
+            }
+
+            GraphUtil.GraphResult resultsYaw = GraphUtil.getGraph(yawSamples);
+            GraphUtil.GraphResult resultsPitch = GraphUtil.getGraph(pitchSamples);
+
+            int negativesYaw = resultsYaw.getNegatives();
+            int negativesPitch = resultsPitch.getNegatives();
+            int positivesYaw = resultsYaw.getPositives();
+            int positivesPitch = resultsPitch.getPositives();
 
             if (positivesYaw > negativesYaw || positivesPitch > negativesPitch) {
                 lastSmooth = now;
@@ -92,25 +119,15 @@ public class RotationData extends Check implements PacketCheck {
             pitchSamples.clear();
         }
 
+        if (isTotallyNotCinematic > 0) {
+            isTotallyNotCinematic--;
+            cinematicRotation = false;
+        } else {
+            cinematicRotation = cinematic;
+        }
+
         lastDeltaXRot = deltaYaw;
         lastDeltaYRot = deltaPitch;
-        cinematicRotation = cinematic;
-    }
-
-    private int countNegatives(List<Double> values) {
-        int negatives = 0;
-        for (int i = 1; i < values.size(); i++) {
-            if (values.get(i) - values.get(i - 1) < 0) negatives++;
-        }
-        return negatives;
-    }
-
-    private int countPositives(List<Double> values) {
-        int positives = 0;
-        for (int i = 1; i < values.size(); i++) {
-            if (values.get(i) - values.get(i - 1) > 0) positives++;
-        }
-        return positives;
     }
 
     public boolean isCinematicRotation() {

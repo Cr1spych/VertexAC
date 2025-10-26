@@ -753,7 +753,7 @@ public final class Statistics {
         return data.stream().map(v -> (double) (sorted.indexOf(v.doubleValue()) + 1)).collect(Collectors.toList());
     }
 
-    public static int getDistinct(final Collection<? extends Number> data) {
+    public static int getDistinct(Collection<? extends Number> data) {
         return (int) data.stream().distinct().count();
     }
 

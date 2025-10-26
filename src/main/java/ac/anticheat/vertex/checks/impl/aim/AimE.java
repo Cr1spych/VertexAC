@@ -11,42 +11,43 @@ import com.github.retrooper.packetevents.event.PacketReceiveEvent;
  * ну типа a > 3.5 а b == 0
  */
 public class AimE extends Check implements PacketCheck {
-    private double maxBuffer;
-
     public AimE(APlayer aPlayer) {
         super("AimE", aPlayer);
         this.maxBuffer = Config.getInt(getConfigPath() + ".max-buffer", 7);
+        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.25);
     }
 
-    private double bufferYaw;
-    private double bufferPitch;
+    private double buffer1;
+    private double buffer2;
+    private double maxBuffer;
+    private double bufferDecrease;
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
-        if (!isEnabled() || aPlayer.bukkitPlayer.isInsideVehicle() || Math.abs(aPlayer.rotationData.pitch) == 90 || !aPlayer.actionData.inCombat()) return;
+        if (!isEnabled() || aPlayer.bukkitPlayer.isInsideVehicle() || Math.abs(aPlayer.rotationData.pitch) == 90 || !aPlayer.actionData.inCombat() || aPlayer.rotationData.isCinematicRotation()) return;
 
         float deltaYaw = Math.abs(aPlayer.rotationData.deltaYaw);
         float deltaPitch = Math.abs(aPlayer.rotationData.deltaPitch);
 
         if (PacketUtil.isRotation(event)) {
             if (deltaYaw > 3.5 && deltaPitch == 0) {
-                bufferYaw++;
-                if (bufferYaw > maxBuffer) {
+                buffer1++;
+                if (buffer1 > maxBuffer) {
                     flag("ну типа х > 3.5 а y == 0");
-                    bufferYaw = 0;
+                    buffer1 = 0;
                 }
             } else {
-                if (bufferYaw > 0) bufferYaw -= 0.1;
+                if (buffer1 > 0) buffer1 -= bufferDecrease;
             }
 
             if (deltaPitch > 3.5 && deltaYaw == 0) {
-                bufferPitch++;
-                if (bufferPitch > maxBuffer) {
+                buffer2++;
+                if (buffer2 > maxBuffer) {
                     flag("ну типа y > 3.5 а х == 0");
-                    bufferPitch = 0;
+                    buffer2 = 0;
                 }
             } else {
-                if (bufferPitch > 0) bufferPitch -= 0.1;
+                if (buffer2 > 0) buffer2 -= bufferDecrease;
             }
         }
     }
@@ -54,5 +55,6 @@ public class AimE extends Check implements PacketCheck {
     @Override
     public void onReload() {
         this.maxBuffer = Config.getInt(getConfigPath() + ".max-buffer", 7);
+        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.25);
     }
 }

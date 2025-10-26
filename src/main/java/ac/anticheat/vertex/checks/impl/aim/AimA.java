@@ -16,10 +16,12 @@ public class AimA extends Check implements PacketCheck {
     public AimA(APlayer aPlayer) {
         super("AimA", aPlayer);
         this.maxBuffer = Config.getInt(getConfigPath() + ".max-buffer", 1);
+        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.05);
     }
 
     private double buffer;
     private double maxBuffer;
+    private double bufferDecrease;
     private final List<Double> deltaYaws = new EvictingList<>(3);
 
     @Override
@@ -41,7 +43,7 @@ public class AimA extends Check implements PacketCheck {
                         buffer = 0;
                     }
                 } else {
-                    if (buffer > 0) buffer -= 0.05;
+                    if (buffer > 0) buffer -= bufferDecrease;
                 }
             }
         }
@@ -50,5 +52,6 @@ public class AimA extends Check implements PacketCheck {
     @Override
     public void onReload() {
         this.maxBuffer = Config.getInt(getConfigPath() + ".max-buffer", 1);
+        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.05);
     }
 }

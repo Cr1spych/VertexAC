@@ -25,84 +25,92 @@ checks:
     alert: true
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
     max-buffer: 1
-    hit-cancel-ticks: 100
+    buffer-decrease: 0.05
+    hit-cancel-ticks: 60
 
   AimB: # округление
-    max-violations: 5
+    max-violations: 10
     remove-violations-after: 60 # seconds
     decay: 1
     enabled: true
     alert: true
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
     max-buffer: 1
-    hit-cancel-ticks: 100
+    buffer-decrease: 0.1
+    hit-cancel-ticks: 20
 
-  AimC: # пусто(пока что)
-    max-violations: 5
+  AimC: # супер мега детект
+    max-violations: 15
     remove-violations-after: 60 # seconds
     decay: 1
     enabled: true
     alert: true
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
     max-buffer: 3
-    hit-cancel-ticks: 100
+    buffer-decrease: 0.25
+    hit-cancel-ticks: 10
 
-  AimD: # корреляция
-    max-violations: 5
+  AimD: # пока пусто
+    max-violations: 10
     remove-violations-after: 60 # seconds
     decay: 1
     enabled: true
     alert: true
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
     max-buffer: 5
-    hit-cancel-ticks: 100
+    buffer-decrease: 0.25
+    hit-cancel-ticks: 40
 
-  AimE: # ну типа a > 3.5 & b == 0
-    max-violations: 5
+  AimE: # статик ротации
+    max-violations: 15
     remove-violations-after: 60 # seconds
     decay: 1
     enabled: true
     alert: true
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
     max-buffer: 5
+    buffer-decrease: 0.25
     hit-cancel-ticks: 20
 
-  AuraA: # когда я ем я не бью
-    max-violations: 5
+  AuraA: # ест и бьёт
+    max-violations: 10
     remove-violations-after: 60 # seconds
     decay: 1
     enabled: true
     alert: true
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
     max-buffer: 1
-    hit-cancel-ticks: 100
+    buffer-decrease: 0.5
+    hit-cancel-ticks: 20
 
-  AuraB: # вырезал нахуй(пусто)
-    max-violations: 5
+  AuraB: # скоро чё нибудь придумаю
+    max-violations: 10
     remove-violations-after: 60 # seconds
     decay: 1
     enabled: true
     alert: true
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
     max-buffer: 1
-    hit-cancel-ticks: 100
+    hit-cancel-ticks: 20
 
   AuraC: # автокликер чё
-    max-violations: 5
+    max-violations: 15
     remove-violations-after: 60 # seconds
     decay: 1
     enabled: true
     alert: true
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
     max-buffer: 1
-    hit-cancel-ticks: 100
+    buffer-decrease: 1
+    hit-cancel-ticks: 20
 
   AuraD: # снапы
-    max-violations: 5
+    max-violations: 10
     remove-violations-after: 60 # seconds
     decay: 1
     enabled: true
     alert: true
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
     max-buffer: 1
-    hit-cancel-ticks: 100
+    buffer-decrease: 0.5
+    hit-cancel-ticks: 40

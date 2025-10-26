@@ -104,4 +104,22 @@ public class MathUtil {
 
         return kurtosis;
     }
+
+    public static double getSmoothness(List<Double> rotations) {
+        if (rotations.size() < 3) return 0.0;
+
+        double totalJerk = 0.0;
+        int count = 0;
+
+        for (int i = 1; i < rotations.size() - 1; i++) {
+            double deltaPrev = rotations.get(i) - rotations.get(i - 1);
+            double deltaNext = rotations.get(i + 1) - rotations.get(i);
+
+            totalJerk += Math.abs(deltaNext - deltaPrev);
+            count++;
+        }
+
+        double avgJerk = totalJerk / count;
+        return 1.0 / (1.0 + avgJerk);
+    }
 }

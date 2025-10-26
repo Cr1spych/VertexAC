@@ -14,10 +14,12 @@ public class AuraA extends Check implements PacketCheck {
     public AuraA(APlayer player) {
         super("AuraA", player);
         this.maxBuffer = Config.getDouble(getConfigPath() + ".max-buffer", 1);
+        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.5);
     }
 
     private double maxBuffer;
     private double buffer;
+    private double bufferDecrease;
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
@@ -31,7 +33,7 @@ public class AuraA extends Check implements PacketCheck {
                     buffer = 0;
                 }
             } else {
-                if (buffer > 0) buffer--;
+                if (buffer > 0) buffer -= bufferDecrease;
             }
         }
     }
@@ -39,5 +41,6 @@ public class AuraA extends Check implements PacketCheck {
     @Override
     public void onReload() {
         this.maxBuffer = Config.getDouble(getConfigPath() + ".max-buffer", 1);
+        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.5);
     }
 }
