@@ -8,7 +8,7 @@ import ac.anticheat.vertex.utils.PacketUtil;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 
 /**
- * Snap
+ * снапы
  */
 public class AuraD extends Check implements PacketCheck {
     public AuraD(APlayer aPlayer) {

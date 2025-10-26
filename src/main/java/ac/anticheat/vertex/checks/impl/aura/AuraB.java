@@ -9,7 +9,7 @@ import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientEntityAction;
 
 /**
- * Invalid sprint actions
+ * хз
  */
 public class AuraB extends Check implements PacketCheck {
     public AuraB(APlayer player) {

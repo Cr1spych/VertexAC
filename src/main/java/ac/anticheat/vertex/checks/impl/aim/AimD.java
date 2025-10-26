@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Relationship
+ * хз
  */
 public class AimD extends Check implements PacketCheck {
     public AimD(APlayer aPlayer) {

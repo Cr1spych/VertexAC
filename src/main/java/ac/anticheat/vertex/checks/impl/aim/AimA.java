@@ -10,7 +10,7 @@ import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 
 import java.util.List;
 /**
- * High value between 2 zeros
+ * снапы
  */
 public class AimA extends Check implements PacketCheck {
     public AimA(APlayer aPlayer) {

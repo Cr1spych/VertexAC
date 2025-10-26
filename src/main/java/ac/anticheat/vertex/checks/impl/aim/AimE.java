@@ -8,7 +8,7 @@ import ac.anticheat.vertex.utils.PacketUtil;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 
 /**
- * Static rotations
+ * ну типа a > 3.5 а b == 0
  */
 public class AimE extends Check implements PacketCheck {
     private double maxBuffer;

@@ -7,6 +7,9 @@ import ac.anticheat.vertex.utils.Config;
 import ac.anticheat.vertex.utils.PacketUtil;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 
+/**
+ * округление
+ */
 public class AimB extends Check implements PacketCheck {
     public AimB(APlayer aPlayer) {
         super("AimB", aPlayer);

@@ -9,7 +9,7 @@ import ac.anticheat.vertex.utils.PacketUtil;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 
 /**
- * Same delay
+ * автокликер типо
  */
 public class AuraC extends Check implements PacketCheck {
     public AuraC(APlayer player) {
