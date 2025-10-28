@@ -105,21 +105,68 @@ public class MathUtil {
         return kurtosis;
     }
 
-    public static double getSmoothness(List<Double> rotations) {
-        if (rotations.size() < 3) return 0.0;
+    public static double r2Linearity(List<Double> deltas) {
+        int n = deltas.size();
+        if (n < 2) return 1.0;
 
-        double totalJerk = 0.0;
-        int count = 0;
+        double sumX = 0, sumY = 0;
+        for (int i = 0; i < n; i++) {
+            sumX += i;
+            sumY += deltas.get(i);
+        }
+        double meanX = sumX / n;
+        double meanY = sumY / n;
 
-        for (int i = 1; i < rotations.size() - 1; i++) {
-            double deltaPrev = rotations.get(i) - rotations.get(i - 1);
-            double deltaNext = rotations.get(i + 1) - rotations.get(i);
+        double ssXX = 0, ssYY = 0, ssXY = 0;
+        for (int i = 0; i < n; i++) {
+            double dx = i - meanX;
+            double dy = deltas.get(i) - meanY;
+            ssXX += dx * dx;
+            ssYY += dy * dy;
+            ssXY += dx * dy;
+        }
+        if (ssXX == 0 || ssYY == 0) return 1.0;
 
-            totalJerk += Math.abs(deltaNext - deltaPrev);
-            count++;
+        double slope = ssXY / ssXX;
+        double intercept = meanY - slope * meanX;
+
+        double ssr = 0;
+        for (int i = 0; i < n; i++) {
+            double pred = slope * i + intercept;
+            double resid = deltas.get(i) - pred;
+            ssr += resid * resid;
         }
 
-        double avgJerk = totalJerk / count;
-        return 1.0 / (1.0 + avgJerk);
+        double r2 = 1.0 - (ssr / ssYY);
+        if (Double.isNaN(r2)) r2 = 1.0;
+        return Math.max(0.0, Math.min(1.0, r2));
+    }
+
+    public static double averageDeltaChange(List<Double> deltas) {
+        if (deltas.size() < 2) return 0;
+        double sum = 0;
+        for (int i = 1; i < deltas.size(); i++) {
+            sum += Math.abs(deltas.get(i) - deltas.get(i - 1));
+        }
+        return sum / (deltas.size() - 1);
+    }
+
+    public static double cosineSimilarity(List<Double> deltas) {
+        if (deltas.size() < 2) return 1.0;
+        double sumCos = 0;
+        int count = 0;
+        for (int i = 1; i < deltas.size(); i++) {
+            double prev = deltas.get(i - 1);
+            double curr = deltas.get(i);
+            if (prev == 0 && curr == 0) continue;
+            double cos = (prev * curr) / (Math.sqrt(prev * prev) * Math.sqrt(curr * curr));
+            sumCos += cos;
+            count++;
+        }
+        return count == 0 ? 1.0 : sumCos / count;
+    }
+
+    public static boolean isNearlySame(double d1, double d2, double number) {
+        return Math.abs(d1 - d2) < number;
     }
 }

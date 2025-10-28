@@ -10,6 +10,7 @@ import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * idk
  */
@@ -30,7 +31,8 @@ public class AimC extends Check implements PacketCheck {
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
-        if (!isEnabled() || aPlayer.bukkitPlayer.isInsideVehicle() || !aPlayer.actionData.inCombat()) return;
+        if (!isEnabled() || aPlayer.bukkitPlayer.isInsideVehicle() || !aPlayer.actionData.inCombat() || aPlayer.rotationData.isCinematicRotation())
+            return;
 
         if (PacketUtil.isRotation(event)) {
             deltaYaw.add((double) Math.abs(aPlayer.rotationData.deltaYaw));

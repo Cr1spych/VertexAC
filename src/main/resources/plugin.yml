@@ -1,5 +1,5 @@
 name: Vertex
-version: '2.0.2'
+version: '2.0.3'
 main: ac.anticheat.vertex.VertexAC
 api-version: '1.16'
 author: Rukzell
@@ -8,8 +8,9 @@ depend: [packetevents]
 commands:
   vertex:
     description: Vertex command
-    usage: /vertex help
+    usage: /vertex
     permission: vertex.commands
+    aliases: [vac, vertexac]
 
 permissions:
   vertex.alerts:

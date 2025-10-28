@@ -4,6 +4,8 @@ import ac.anticheat.vertex.VertexAC;
 import ac.anticheat.vertex.managers.CheckManager;
 import ac.anticheat.vertex.managers.PlayerDataManager;
 import ac.anticheat.vertex.player.APlayer;
+import ac.anticheat.vertex.utils.Config;
+import ac.anticheat.vertex.utils.Hex;
 import ac.anticheat.vertex.utils.Logger;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,7 +27,7 @@ public class GatekeeperListener implements Listener {
         VertexAC.getCheckManager().registerChecks(event.getPlayer());
         if (aPlayer.toggleAlertsOnJoin() && !aPlayer.sendAlerts() && event.getPlayer().hasPermission("vertex.alerts")) {
             aPlayer.setSendAlerts(true);
-            Logger.log(aPlayer.bukkitPlayer, "§aAlerts enabled");
+            Logger.log(aPlayer.bukkitPlayer, Hex.translateHexColors(Config.getString("messages.alerts.alerts-enabled", "§aAlerts enabled")));
         }
     }
 

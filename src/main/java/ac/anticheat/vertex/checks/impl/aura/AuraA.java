@@ -23,7 +23,7 @@ public class AuraA extends Check implements PacketCheck {
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
-        if (!isEnabled()) return;
+        if (!isEnabled() || !aPlayer.actionData.inCombat()) return;
 
         if (PacketUtil.isAttack(event)) {
             if (aPlayer.bukkitPlayer.isHandRaised()) {

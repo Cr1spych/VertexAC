@@ -26,7 +26,8 @@ public class AuraC extends Check implements PacketCheck {
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
-        if (!isEnabled()) return;
+        if (!isEnabled() || !aPlayer.actionData.inCombat()) return;
+
         if (PacketUtil.isAttack(event)) {
             long now = System.currentTimeMillis();
             if (lastAttackTime > 0) {

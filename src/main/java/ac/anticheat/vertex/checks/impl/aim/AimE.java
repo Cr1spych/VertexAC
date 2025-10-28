@@ -14,7 +14,7 @@ public class AimE extends Check implements PacketCheck {
     public AimE(APlayer aPlayer) {
         super("AimE", aPlayer);
         this.maxBuffer = Config.getInt(getConfigPath() + ".max-buffer", 7);
-        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.25);
+        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.5);
     }
 
     private double buffer1;
@@ -24,7 +24,8 @@ public class AimE extends Check implements PacketCheck {
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
-        if (!isEnabled() || aPlayer.bukkitPlayer.isInsideVehicle() || Math.abs(aPlayer.rotationData.pitch) == 90 || !aPlayer.actionData.inCombat() || aPlayer.rotationData.isCinematicRotation()) return;
+        if (!isEnabled() || aPlayer.bukkitPlayer.isInsideVehicle() || Math.abs(aPlayer.rotationData.pitch) == 90 || !aPlayer.actionData.inCombat() || aPlayer.rotationData.isCinematicRotation())
+            return;
 
         float deltaYaw = Math.abs(aPlayer.rotationData.deltaYaw);
         float deltaPitch = Math.abs(aPlayer.rotationData.deltaPitch);
@@ -55,6 +56,6 @@ public class AimE extends Check implements PacketCheck {
     @Override
     public void onReload() {
         this.maxBuffer = Config.getInt(getConfigPath() + ".max-buffer", 7);
-        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.25);
+        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.5);
     }
 }

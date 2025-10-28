@@ -14,7 +14,7 @@ public class AuraD extends Check implements PacketCheck {
     public AuraD(APlayer aPlayer) {
         super("AuraD", aPlayer);
         this.maxBuffer = Config.getInt(getConfigPath() + ".max-buffer", 1);
-        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.5);
+        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.25);
     }
 
     private int buffer;
@@ -26,11 +26,13 @@ public class AuraD extends Check implements PacketCheck {
     private double lastDeltaYaw;
 
     // check config
-    private final double max = 50;
+    private final double max = 60;
     private final double min = 2.5;
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
+        if (!isEnabled() || !aPlayer.actionData.inCombat()) return;
+
         if (PacketUtil.isAttack(event)) {
             deltaYaw = Math.abs(aPlayer.rotationData.deltaYaw);
             lastDeltaYaw = Math.abs(aPlayer.rotationData.lastDeltaYaw);
@@ -38,7 +40,7 @@ public class AuraD extends Check implements PacketCheck {
             if (deltaYaw > max && lastDeltaYaw < min) {
                 buffer++;
                 if (buffer > maxBuffer) {
-                    flag("снапы задетектило");
+                    flag("снапы");
                     buffer = 0;
                 }
             } else {
@@ -50,6 +52,6 @@ public class AuraD extends Check implements PacketCheck {
     @Override
     public void onReload() {
         this.maxBuffer = Config.getDouble(getConfigPath() + ".max-buffer", 1);
-        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.5);
+        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.25);
     }
 }

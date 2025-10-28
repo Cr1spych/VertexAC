@@ -17,8 +17,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.awt.*;
-
 public abstract class Check {
     private final String name;
     protected final APlayer aPlayer;

@@ -4,6 +4,7 @@ import ac.anticheat.vertex.VertexAC;
 import ac.anticheat.vertex.checks.Check;
 import ac.anticheat.vertex.checks.type.PacketCheck;
 import ac.anticheat.vertex.player.APlayer;
+import ac.anticheat.vertex.utils.Config;
 import ac.anticheat.vertex.utils.PacketUtil;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
@@ -18,10 +19,12 @@ public class ActionData extends Check implements PacketCheck {
     private boolean interact = false;
     private boolean startSprint = false;
     private boolean stopSprint = false;
+    private int combatTicks;
     private Player pTarget;
 
     public ActionData(APlayer aPlayer) {
         super("ActionData", aPlayer);
+        this.combatTicks = Config.getInt(getConfigPath() + ".combat-ticks", 40);
     }
 
     @Override
@@ -98,6 +101,10 @@ public class ActionData extends Check implements PacketCheck {
     public boolean inCombat() {
         if (lastAttack == -1) return false;
         long elapsedMillis = (System.nanoTime() - lastAttack) / 1_000_000;
-        return elapsedMillis < 10000;
+        return elapsedMillis < combatTicks * 50;
+    }
+
+    public void onReload() {
+        this.combatTicks = Config.getInt(getConfigPath() + ".combat-ticks", 60);
     }
 }

@@ -8,7 +8,6 @@ import ac.anticheat.vertex.utils.PacketUtil;
 import ac.anticheat.vertex.utils.kireiko.millennium.math.Statistics;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerRotation;
-import com.google.common.collect.Lists;
 
 import java.util.*;
 
@@ -18,7 +17,7 @@ public class RotationData extends Check implements PacketCheck {
     public float lastYaw, lastPitch;
     public float deltaYaw, deltaPitch;
     public float lastDeltaYaw, lastDeltaPitch;
-    public float lastLastDeltaYaw, lastLastDeltaPitch; // Для вычисления ускорений второго порядка
+    public float lastLastDeltaYaw, lastLastDeltaPitch;
 
     private long lastSmooth = 0L, lastHighRate = 0L;
     private double lastDeltaXRot = 0.0, lastDeltaYRot = 0.0;

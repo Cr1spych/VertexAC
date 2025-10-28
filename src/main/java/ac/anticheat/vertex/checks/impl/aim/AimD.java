@@ -26,23 +26,24 @@ public class AimD extends Check implements PacketCheck {
     private double maxBuffer;
     private double bufferDecrease;
     private final List<Double> deltaYaws = new ArrayList<>();
-    private final List<Double> deltaPitch = new ArrayList<>();
+    private final List<Double> deltaPitches = new ArrayList<>();
     private final int maxHistory = 20;
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
-        if (!isEnabled() || Math.abs(aPlayer.rotationData.deltaYaw) < 0.2 || Math.abs(aPlayer.rotationData.deltaPitch) < 0.2 || aPlayer.bukkitPlayer.isInsideVehicle() || !aPlayer.actionData.inCombat() || aPlayer.rotationData.isCinematicRotation())
+        if (!isEnabled() || Math.abs(aPlayer.rotationData.deltaYaw) < 0.2 || Math.abs(aPlayer.rotationData.deltaPitch) < 0.2
+                || aPlayer.bukkitPlayer.isInsideVehicle() || !aPlayer.actionData.inCombat() || aPlayer.rotationData.isCinematicRotation())
             return;
 
-        if (PacketUtil.isRotation(event)) {
-            deltaYaws.add((double) Math.abs(aPlayer.rotationData.deltaYaw));
-            deltaPitch.add((double) Math.abs(aPlayer.rotationData.deltaPitch));
-
-            if (deltaYaws.size() >= maxHistory) {
-                deltaYaws.clear();
-                deltaPitch.clear();
-            }
-        }
+//        if (PacketUtil.isRotation(event)) {
+//            deltaYaws.add((double) Math.abs(aPlayer.rotationData.deltaYaw));
+//            deltaPitches.add((double) Math.abs(aPlayer.rotationData.deltaPitch));
+//
+//            if (deltaYaws.size() >= maxHistory && deltaPitches.size() >= maxHistory) {
+//                deltaYaws.clear();
+//                deltaPitches.clear();
+//            }
+//        }
     }
 
     @Override

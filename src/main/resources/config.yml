@@ -16,6 +16,23 @@ alerts:
   message: "{prefix} #ffebba{player} #ffc84afailed #ffebba{check} #ffc84a#{violations}"
   enable-alerts-on-join: true
 
+messages:
+  no-permission: "§cYou don't have permission to use this command"
+  alerts:
+    alerts-enabled: "§aОповещения включены"
+    alerts-disabled: "§cОповещения выключены"
+  checks:
+    header: "#ffc84aВключённые проверки:"
+    check: "#ffc84a- #ffebba{check}"
+  config:
+    config-reload: "§aПерезагрузка конфига..."
+    config-reloaded: "§aКонфиг перезагружен"
+  commands: |
+    #ffc84a- #ffebba/vertex reload &7- перезагрузка конфига
+    #ffc84a- #ffebba/vertex checks &7- включённые проверки
+    #ffc84a- #ffebba/vertex help &7- помощь
+    #ffc84a- #ffebba/vertex alerts &7- включить/выключить оповещения
+
 checks:
   AimA: # снапы
     max-violations: 5
@@ -26,7 +43,7 @@ checks:
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
     max-buffer: 1
     buffer-decrease: 0.05
-    hit-cancel-ticks: 60
+    hit-cancel-ticks: 40
 
   AimB: # округление
     max-violations: 10
@@ -37,9 +54,9 @@ checks:
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
     max-buffer: 1
     buffer-decrease: 0.1
-    hit-cancel-ticks: 20
+    hit-cancel-ticks: 10
 
-  AimC: # супер мега детект
+  AimC: # надеюсь кириешко не против
     max-violations: 15
     remove-violations-after: 60 # seconds
     decay: 1
@@ -68,8 +85,8 @@ checks:
     enabled: true
     alert: true
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
-    max-buffer: 5
-    buffer-decrease: 0.25
+    max-buffer: 7
+    buffer-decrease: 0.5
     hit-cancel-ticks: 20
 
   AuraA: # ест и бьёт
@@ -79,9 +96,9 @@ checks:
     enabled: true
     alert: true
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
-    max-buffer: 1
+    max-buffer: 2
     buffer-decrease: 0.5
-    hit-cancel-ticks: 20
+    hit-cancel-ticks: 100
 
   AuraB: # скоро чё нибудь придумаю
     max-violations: 10
@@ -112,5 +129,9 @@ checks:
     alert: true
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
     max-buffer: 1
-    buffer-decrease: 0.5
-    hit-cancel-ticks: 40
+    buffer-decrease: 0.25
+    hit-cancel-ticks: 20
+
+  # data
+  ActionData:
+    combat-ticks: 60

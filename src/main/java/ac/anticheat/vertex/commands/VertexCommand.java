@@ -6,6 +6,8 @@ import ac.anticheat.vertex.checks.type.PacketCheck;
 import ac.anticheat.vertex.managers.CheckManager;
 import ac.anticheat.vertex.managers.PlayerDataManager;
 import ac.anticheat.vertex.player.APlayer;
+import ac.anticheat.vertex.utils.Config;
+import ac.anticheat.vertex.utils.Hex;
 import ac.anticheat.vertex.utils.Logger;
 import ac.anticheat.vertex.utils.kireiko.millennium.math.Statistics;
 import org.bukkit.Bukkit;
@@ -43,11 +45,11 @@ public class VertexCommand implements CommandExecutor {
 
     private void reload(CommandSender sender) {
         if (!sender.hasPermission("vertex.reload")) {
-            sender.sendMessage("§cYou don't have permission to use this command");
+            sender.sendMessage(Hex.translateHexColors(Config.getString("messages.no-permission", "§cYou don't have permission to use this command")));
             return;
         }
 
-        Logger.log((Player) sender, "§aReloading config...");
+        Logger.log((Player) sender, Hex.translateHexColors(Config.getString("messages.config.config-reload", "§aReloading config...")));
         plugin.reloadConfig();
 
         Bukkit.getOnlinePlayers().forEach(player -> {
@@ -58,21 +60,21 @@ public class VertexCommand implements CommandExecutor {
             }
         });
 
-        Logger.log((Player) sender, "§aConfig reloaded");
+        Logger.log((Player) sender, Hex.translateHexColors(Config.getString("messages.config.config-reloaded", "§aConfig reloaded")));
     }
 
     private void checks(CommandSender sender) {
         if (!sender.hasPermission("vertex.checks")) {
-            sender.sendMessage("§cYou don't have permission to use this command");
+            sender.sendMessage(Hex.translateHexColors(Config.getString("messages.no-permission", "§cYou don't have permission to use this command")));
             return;
         }
 
-        Logger.log((Player) sender, "§aEnabled checks:");
+        Logger.log((Player) sender, Hex.translateHexColors(Config.getString("messages.checks.header", "§aEnabled checks:")));
         for (Player player : Bukkit.getOnlinePlayers()) {
             for (Check check : VertexAC.getCheckManager().getChecks(player)) {
                 if (check.isEnabled()) {
                     if (check.getName().toLowerCase().contains("data")) continue;
-                    sender.sendMessage(" §a- §f" + check.getName());
+                    sender.sendMessage(Hex.translateHexColors(Config.getString("messages.checks.check", "§a- &f{check}")).replace("{check}", check.getName()));
                 }
             }
             break;
@@ -86,7 +88,7 @@ public class VertexCommand implements CommandExecutor {
         }
 
         if (!sender.hasPermission("vertex.alerts")) {
-            sender.sendMessage("§cYou don't have permission to use this command");
+            sender.sendMessage(Hex.translateHexColors(Config.getString("messages.no-permission", "§cYou don't have permission to use this command")));
             return;
         }
 
@@ -94,24 +96,18 @@ public class VertexCommand implements CommandExecutor {
 
         aPlayer.toggleAlerts();
         if (aPlayer.sendAlerts()) {
-            Logger.log((Player) sender, "§aAlerts enabled");
+            Logger.log((Player) sender, Hex.translateHexColors(Config.getString("messages.alerts.alerts-enabled", "§aAlerts enabled")));
         } else {
-            Logger.log((Player) sender, "§cAlerts disabled");
+            Logger.log((Player) sender, Hex.translateHexColors(Config.getString("messages.alerts.alerts-disabled", "§cAlerts disabled")));
         }
     }
 
     private void sendHelp(CommandSender sender) {
         if (!sender.hasPermission("vertex.help")) {
-            sender.sendMessage("§cYou don't have permission to use this command");
+            sender.sendMessage(Hex.translateHexColors(Config.getString("messages.no-permission", "§cYou don't have permission to use this command")));
             return;
         }
 
-        sender.sendMessage("""
-                §aCommands:
-                 §a- §f/vertex reload §7- config reload
-                 §a- §f/vertex checks §7- enabled checks
-                 §a- §f/vertex help §7- help
-                 §a- §f/vertex alerts §7- toggle alerts
-                """);
+        sender.sendMessage(Hex.translateHexColors(Config.getString("messages.commands", "")));
     }
 }
