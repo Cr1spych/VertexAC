@@ -21,5 +21,3 @@ permissions:
     default: op
   vertex.help:
     default: op
-  vertex.ml:
-    default: op
