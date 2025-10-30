@@ -10,7 +10,9 @@ import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientEntityAction;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class ActionData extends Check implements PacketCheck {
 
@@ -21,10 +23,11 @@ public class ActionData extends Check implements PacketCheck {
     private boolean stopSprint = false;
     private int combatTicks;
     private Player pTarget;
+    private ItemStack heldItem;
 
     public ActionData(APlayer aPlayer) {
         super("ActionData", aPlayer);
-        this.combatTicks = Config.getInt(getConfigPath() + ".combat-ticks", 40);
+        this.combatTicks = Config.getInt(getConfigPath() + ".combat-ticks", 60);
     }
 
     @Override
@@ -34,6 +37,7 @@ public class ActionData extends Check implements PacketCheck {
             lastAttack = System.nanoTime();
             attack = true;
             pTarget = VertexAC.getGatekeeperListener().getPlayerById(wrapper.getEntityId());
+            heldItem = aPlayer.bukkitPlayer.getItemInHand();
             return;
         }
 

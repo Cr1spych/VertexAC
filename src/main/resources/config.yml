@@ -67,15 +67,13 @@ checks:
     buffer-decrease: 0.25
     hit-cancel-ticks: 10
 
-  AimD: # пока пусто
+  AimD: # плавный аим
     max-violations: 10
     remove-violations-after: 60 # seconds
     decay: 1
     enabled: true
     alert: true
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
-    max-buffer: 5
-    buffer-decrease: 0.25
     hit-cancel-ticks: 40
 
   AimE: # статик ротации
@@ -89,6 +87,30 @@ checks:
     buffer-decrease: 0.5
     hit-cancel-ticks: 20
 
+  AimF: # очень маленькие дельты
+    max-violations: 30
+    remove-violations-after: 60 # seconds
+    decay: 1
+    enabled: true
+    alert: true
+    punish-command: 'kick {player} #ff7b42Unfair Advantage'
+    max-buffer: 1
+    buffer-decrease: 0.05
+    hit-cancel-ticks: 15
+
+  AimG*: # неестественные движения(экспериментальная)
+    max-violations: 15
+    remove-violations-after: 60 # seconds
+    decay: 1
+    enabled: true
+    alert: true
+    punish-command: 'kick {player} #ff7b42Unfair Advantage'
+    max-buffer: 1
+    buffer-decrease: 0.25
+    hit-cancel-ticks: 0
+    zcr-threshold: 0.5
+    avg-delta-yaw-threshold: 3.0
+
   AuraA: # ест и бьёт
     max-violations: 10
     remove-violations-after: 60 # seconds
@@ -100,15 +122,16 @@ checks:
     buffer-decrease: 0.5
     hit-cancel-ticks: 100
 
-  AuraB: # скоро чё нибудь придумаю
+  AuraB: # удары через стену($$$elfcode)
     max-violations: 10
     remove-violations-after: 60 # seconds
     decay: 1
     enabled: true
     alert: true
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
-    max-buffer: 1
-    hit-cancel-ticks: 20
+    max-buffer: 3
+    buffer-decrease: 0.5
+    hit-cancel-ticks: 60
 
   AuraC: # автокликер чё
     max-violations: 15

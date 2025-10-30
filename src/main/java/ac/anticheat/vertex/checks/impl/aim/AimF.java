@@ -7,14 +7,11 @@ import ac.anticheat.vertex.utils.Config;
 import ac.anticheat.vertex.utils.PacketUtil;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 
-/**
- * округление
- */
-public class AimB extends Check implements PacketCheck {
-    public AimB(APlayer aPlayer) {
-        super("AimB", aPlayer);
-        this.maxBuffer = Config.getInt(getConfigPath() + ".max-buffer", 5);
-        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.5);
+public class AimF extends Check implements PacketCheck {
+    public AimF(APlayer aPlayer) {
+        super("AimF", aPlayer);
+        this.maxBuffer = Config.getDouble(getConfigPath() + ".max-buffer", 1);
+        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.05);
     }
 
     private double buffer;
@@ -23,20 +20,18 @@ public class AimB extends Check implements PacketCheck {
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
-        if (!isEnabled() || aPlayer.bukkitPlayer.isInsideVehicle() || !aPlayer.actionData.inCombat() || aPlayer.rotationData.isCinematicRotation())
-            return;
+        if (!isEnabled() || aPlayer.bukkitPlayer.isInsideVehicle() || !aPlayer.actionData.inCombat() || aPlayer.rotationData.isCinematicRotation()) return;
 
         if (PacketUtil.isRotation(event)) {
             float deltaYaw = Math.abs(aPlayer.rotationData.deltaYaw);
             float deltaPitch = Math.abs(aPlayer.rotationData.deltaPitch);
 
-            boolean yawRounded = Math.round(deltaYaw) - deltaYaw == 0 && deltaYaw != 0;
-            boolean pitchRounded = Math.round(deltaPitch) - deltaPitch == 0 && deltaPitch != 0;
+            boolean invalid = deltaYaw < 1E-5 && deltaYaw != 0 || deltaPitch < 1E-5 && deltaPitch != 0;
 
-            if (yawRounded || pitchRounded) {
+            if (invalid) {
                 buffer++;
                 if (buffer > maxBuffer) {
-                    flag("округление");
+                    flag("слишком маленькие дельты");
                     buffer = 0;
                 }
             } else {
@@ -47,7 +42,7 @@ public class AimB extends Check implements PacketCheck {
 
     @Override
     public void onReload() {
-        this.maxBuffer = Config.getInt(getConfigPath() + ".max-buffer", 5);
-            this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.5);
+        this.maxBuffer = Config.getDouble(getConfigPath() + ".max-buffer", 1);
+        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.05);
     }
 }

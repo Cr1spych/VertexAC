@@ -21,7 +21,7 @@ public abstract class Check {
     private final String name;
     protected final APlayer aPlayer;
     private final boolean enabled;
-    private final boolean setback;
+    private final boolean experimental;
     private final String punishCommand;
     private final boolean alert;
     private int violations;
@@ -31,35 +31,18 @@ public abstract class Check {
     private Plugin plugin;
 
     private BukkitTask decayTask;
-    private Location lastLocation;
 
     public Check(String name, APlayer aPlayer) {
         this.name = name;
         this.aPlayer = aPlayer;
         this.enabled = Config.getBoolean("checks." + name + ".enabled", true);
-        this.setback = false;
-        this.punishCommand = Config.getString("checks." + name + ".punish-command", "");
+        this.experimental = name.contains("*");
+        this.punishCommand = Config.getString("checks." + name + ".punish-command", "kick {player} #ff7b42Unfair Advantage");
         this.alert = Config.getBoolean("checks." + name + ".alert", true);
         this.maxViolations = Config.getInt("checks." + name + ".max-violations", 10);
-        this.hitCancelTicks = Config.getInt("checks." + name + ".hit-cancel-ticks", 100);
+        this.hitCancelTicks = Config.getInt("checks." + name + ".hit-cancel-ticks", 20);
         this.hitTicksToCancel = 0;
         this.plugin = VertexAC.getInstance();
-
-        this.lastLocation = aPlayer.bukkitPlayer.getLocation().clone();
-
-        startDecayTask();
-    }
-
-    public Check(String name, APlayer aPlayer, boolean setback) {
-        this.name = name;
-        this.aPlayer = aPlayer;
-        this.enabled = Config.getBoolean("checks." + name + ".enabled", true);
-        this.setback = setback;
-        this.punishCommand = Config.getString("checks." + name + ".punish-command", "");
-        this.alert = Config.getBoolean("checks." + name + ".alert", true);
-        this.maxViolations = Config.getInt("checks." + name + ".max-violations", 10);
-
-        this.lastLocation = aPlayer.bukkitPlayer.getLocation().clone();
 
         startDecayTask();
     }
@@ -69,7 +52,9 @@ public abstract class Check {
     }
 
     protected void flag(String verbose) {
-        this.hitTicksToCancel += hitCancelTicks;
+        if (!experimental) {
+            this.hitTicksToCancel += hitCancelTicks;
+        }
 
         if (violations < maxViolations) {
             violations++;
@@ -77,11 +62,11 @@ public abstract class Check {
             aPlayer.kaNpcVl++;
         }
 
-        String rawMessage = Config.getString("alerts.message", "");
+        String rawMessage = Config.getString("alerts.message", "alerts.message");
 
         Component message = MessageUtils.parseMessage(
                 rawMessage
-                        .replace("{prefix}", Config.getString("vertex.prefix", ""))
+                        .replace("{prefix}", Config.getString("vertex.prefix", "vertex.prefix"))
                         .replace("{player}", aPlayer.bukkitPlayer.getName())
                         .replace("{check}", name)
                         .replace("{violations}", String.valueOf(violations))
@@ -101,25 +86,9 @@ public abstract class Check {
             }
         }
 
-        if (setback && aPlayer.bukkitPlayer.isOnline()) {
-            setback();
-        }
-
         if (getViolations() >= getMaxViolations()) {
             runSync(() -> PunishEffect.start(aPlayer.bukkitPlayer));
             dispatchCommand(Hex.translateHexColors(punishCommand));
-        }
-    }
-
-    protected void setback() {
-        if (lastLocation != null && aPlayer.bukkitPlayer.isOnline()) {
-            runSync(() -> aPlayer.bukkitPlayer.teleport(lastLocation));
-        }
-    }
-
-    protected void updateLastLocation(Location loc) {
-        if (loc != null) {
-            this.lastLocation = loc.clone();
         }
     }
 
@@ -130,10 +99,6 @@ public abstract class Check {
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), finalCommand.replace("{player}", aPlayer.bukkitPlayer.getName()));
             resetViolations();
         });
-    }
-
-    protected void cancel(PacketReceiveEvent event) {
-        event.setCancelled(true);
     }
 
     private void startDecayTask() {
@@ -162,19 +127,9 @@ public abstract class Check {
         }
     }
 
-    public void runLater(Runnable task, long delayTicks) {
-        Bukkit.getScheduler().runTaskLater(plugin, task, delayTicks);
-    }
-
     public void cancelDecayTask() {
         if (decayTask != null) {
             decayTask.cancel();
-        }
-    }
-
-    public void updateLastLocation() {
-        if (aPlayer != null && aPlayer.bukkitPlayer.isOnline()) {
-            this.lastLocation = aPlayer.bukkitPlayer.getLocation().clone();
         }
     }
 

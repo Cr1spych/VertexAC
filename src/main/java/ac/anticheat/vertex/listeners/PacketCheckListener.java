@@ -16,12 +16,6 @@ public class PacketCheckListener implements com.github.retrooper.packetevents.ev
 
         if (player == null) return;
 
-        if (PacketUtil.isMovement(event)) {
-            for (Check check : VertexAC.getCheckManager().getChecks(player)) {
-                check.updateLastLocation();
-            }
-        }
-
         for (Check check : VertexAC.getCheckManager().getChecks(player)) {
             if (check instanceof PacketCheck packetCheck) {
                 packetCheck.onPacketReceive(event);

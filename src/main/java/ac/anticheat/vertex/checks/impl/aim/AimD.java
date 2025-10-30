@@ -18,37 +18,35 @@ import java.util.List;
 public class AimD extends Check implements PacketCheck {
     public AimD(APlayer aPlayer) {
         super("AimD", aPlayer);
-        this.maxBuffer = Config.getInt(getConfigPath() + ".max-buffer", 3);
-        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.25);
     }
 
-    private double buffer;
-    private double maxBuffer;
-    private double bufferDecrease;
     private final List<Double> deltaYaws = new ArrayList<>();
-    private final List<Double> deltaPitches = new ArrayList<>();
+
     private final int maxHistory = 20;
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
-        if (!isEnabled() || Math.abs(aPlayer.rotationData.deltaYaw) < 0.2 || Math.abs(aPlayer.rotationData.deltaPitch) < 0.2
-                || aPlayer.bukkitPlayer.isInsideVehicle() || !aPlayer.actionData.inCombat() || aPlayer.rotationData.isCinematicRotation())
-            return;
+        if (!isEnabled() || aPlayer.bukkitPlayer.isInsideVehicle() || !aPlayer.actionData.inCombat() || aPlayer.rotationData.isCinematicRotation()) return;
 
-//        if (PacketUtil.isRotation(event)) {
-//            deltaYaws.add((double) Math.abs(aPlayer.rotationData.deltaYaw));
-//            deltaPitches.add((double) Math.abs(aPlayer.rotationData.deltaPitch));
-//
-//            if (deltaYaws.size() >= maxHistory && deltaPitches.size() >= maxHistory) {
-//                deltaYaws.clear();
-//                deltaPitches.clear();
-//            }
-//        }
-    }
-
-    @Override
-    public void onReload() {
-        this.maxBuffer = Config.getInt(getConfigPath() + ".max-buffer", 3);
-        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.25);
+        if (PacketUtil.isRotation(event)) {
+            double deltaYaw = aPlayer.rotationData.deltaYaw;
+            if ((deltaYaw > 1.8 && aPlayer.rotationData.deltaPitch > 1.8)) {
+                deltaYaws.add(deltaYaw);
+            }
+            if (deltaYaws.size() > maxHistory) {
+                List<Float> jiff = Statistics.getJiffDelta(deltaYaws, 1);
+                float jiff1 = 95959;
+                float jiff2 = 95795;
+                for (float i : jiff) {
+                    if (i == 0 && jiff1 == 0 && jiff2 == 0) {
+                        flag();
+                        break;
+                    }
+                    jiff2 = jiff1;
+                    jiff1 = i;
+                }
+                deltaYaws.clear();
+            }
+        }
     }
 }

@@ -44,7 +44,7 @@ public class AimC extends Check implements PacketCheck {
                 if (disYaw < 8 && avgYaw > 2.5D) {
                     buffer1++;
                     if (buffer1 > maxBuffer) {
-                        flag("опа детект");
+                        flag("");
                         buffer1 = 0;
                     }
                 } else {

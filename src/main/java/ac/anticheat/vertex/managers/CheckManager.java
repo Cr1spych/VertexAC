@@ -24,6 +24,9 @@ public class CheckManager {
         playerChecks.add(new AimC(aPlayer));
         playerChecks.add(new AimD(aPlayer));
         playerChecks.add(new AimE(aPlayer));
+        playerChecks.add(new AimF(aPlayer));
+        playerChecks.add(new AimG(aPlayer));
+
         playerChecks.add(new AuraA(aPlayer));
         playerChecks.add(new AuraB(aPlayer));
         playerChecks.add(new AuraC(aPlayer));

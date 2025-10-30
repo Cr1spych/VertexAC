@@ -8,7 +8,7 @@ import ac.anticheat.vertex.utils.PacketUtil;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 
 /**
- * когда я ем я не бью
+ * ты тоже жрёшь и бьёшь?
  */
 public class AuraA extends Check implements PacketCheck {
     public AuraA(APlayer player) {
