@@ -1,5 +1,6 @@
 package ac.anticheat.vertex;
 
+import ac.anticheat.vertex.api.events.VEventManager;
 import ac.anticheat.vertex.commands.VertexCommand;
 import ac.anticheat.vertex.listeners.*;
 import ac.anticheat.vertex.managers.CheckManager;
@@ -12,12 +13,14 @@ public class VertexAC extends JavaPlugin {
     private static VertexAC instance;
     private GatekeeperListener gatekeeperListener;
     private CheckManager checkManager;
+    private VEventManager eventManager;
 
     @Override
     public void onEnable() {
         instance = this;
         gatekeeperListener = new GatekeeperListener();
         checkManager = new CheckManager();
+        eventManager = new VEventManager();
         saveDefaultConfig();
 
         registerPacketListeners();
@@ -64,5 +67,9 @@ public class VertexAC extends JavaPlugin {
 
     public static CheckManager getCheckManager() {
         return instance.checkManager;
+    }
+
+    public static VEventManager getEventManager() {
+        return instance.eventManager;
     }
 }
