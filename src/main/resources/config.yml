@@ -132,6 +132,7 @@ checks:
     max-buffer: 3
     buffer-decrease: 0.5
     hit-cancel-ticks: 60
+    hitbox-expand: 0.25
 
   AuraC: # автокликер чё
     max-violations: 15

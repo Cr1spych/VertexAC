@@ -26,11 +26,13 @@ public class AuraB extends Check implements PacketCheck {
         super("AuraB", player);
         this.maxBuffer = Config.getInt(getConfigPath() + ".max-buffer", 3);
         this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.5);
+        this.hitboxExpand = Config.getDouble(getConfigPath() + ".hitbox-expand", 0.25);
     }
 
     private double buffer;
     private double maxBuffer;
     private double bufferDecrease;
+    private double hitboxExpand;
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
@@ -60,11 +62,11 @@ public class AuraB extends Check implements PacketCheck {
     private boolean wallHit$$$elfcode(Player from, Player target) {
         Location origin = from.getLocation().add(0, from.getEyeHeight(), 0);
 
-        double width = target.getWidth() / 2.0;
+        double width = target.getWidth() / 2.0 + hitboxExpand;
         double minX = target.getLocation().getX() - width;
         double maxX = target.getLocation().getX() + width;
-        double minY = target.getLocation().getY();
-        double maxY = target.getLocation().getY() + target.getHeight();
+        double minY = target.getLocation().getY() - hitboxExpand;
+        double maxY = target.getLocation().getY() + target.getHeight() + hitboxExpand;
         double minZ = target.getLocation().getZ() - width;
         double maxZ = target.getLocation().getZ() + width;
 
@@ -102,5 +104,6 @@ public class AuraB extends Check implements PacketCheck {
     public void onReload() {
         this.maxBuffer = Config.getInt(getConfigPath() + ".max-buffer", 3);
         this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.5);
+        this.hitboxExpand = Config.getDouble(getConfigPath() + ".hitbox-expand", 0.25);
     }
 }

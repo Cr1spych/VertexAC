@@ -49,7 +49,11 @@ public class VertexCommand implements CommandExecutor {
             return;
         }
 
-        Logger.log((Player) sender, Hex.translateHexColors(Config.getString("messages.config.config-reload", "§aReloading config...")));
+        if (sender instanceof Player) {
+            Logger.log((Player) sender, Hex.translateHexColors(Config.getString("messages.config.config-reload", "§aReloading config...")));
+        } else {
+            Logger.log(Hex.translateHexColors(Config.getString("messages.config.config-reload", "§aReloading config...")));
+        }
         plugin.reloadConfig();
 
         Bukkit.getOnlinePlayers().forEach(player -> {
@@ -60,7 +64,11 @@ public class VertexCommand implements CommandExecutor {
             }
         });
 
-        Logger.log((Player) sender, Hex.translateHexColors(Config.getString("messages.config.config-reloaded", "§aConfig reloaded")));
+        if (sender instanceof Player) {
+            Logger.log((Player) sender, Hex.translateHexColors(Config.getString("messages.config.config-reloaded", "§aConfig reloaded")));
+        } else {
+            Logger.log(Hex.translateHexColors(Config.getString("messages.config.config-reloaded", "§aConfig reloaded")));
+        }
     }
 
     private void checks(CommandSender sender) {
@@ -69,15 +77,28 @@ public class VertexCommand implements CommandExecutor {
             return;
         }
 
-        Logger.log((Player) sender, Hex.translateHexColors(Config.getString("messages.checks.header", "§aEnabled checks:")));
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            for (Check check : VertexAC.getCheckManager().getChecks(player)) {
-                if (check.isEnabled()) {
-                    if (check.getName().toLowerCase().contains("data")) continue;
-                    sender.sendMessage(Hex.translateHexColors(Config.getString("messages.checks.check", "§a- &f{check}")).replace("{check}", check.getName()));
+        if (sender instanceof Player) {
+            Logger.log((Player) sender, Hex.translateHexColors(Config.getString("messages.checks.header", "§aEnabled checks:")));
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                for (Check check : VertexAC.getCheckManager().getChecks(player)) {
+                    if (check.isEnabled()) {
+                        if (check.getName().toLowerCase().contains("data")) continue;
+                        sender.sendMessage(Hex.translateHexColors(Config.getString("messages.checks.check", "§a- &f{check}")).replace("{check}", check.getName()));
+                    }
                 }
+                break;
             }
-            break;
+        } else {
+            Logger.log(Hex.translateHexColors(Config.getString("messages.checks.header", "§aEnabled checks:")));
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                for (Check check : VertexAC.getCheckManager().getChecks(player)) {
+                    if (check.isEnabled()) {
+                        if (check.getName().toLowerCase().contains("data")) continue;
+                        sender.sendMessage(Hex.translateHexColors(Config.getString("messages.checks.check", "§a- &f{check}")).replace("{check}", check.getName()));
+                    }
+                }
+                break;
+            }
         }
     }
 
@@ -108,6 +129,10 @@ public class VertexCommand implements CommandExecutor {
             return;
         }
 
-        sender.sendMessage(Hex.translateHexColors(Config.getString("messages.commands", "")));
+        if (sender instanceof Player) {
+            Logger.log((Player) sender, Hex.translateHexColors(Config.getString("messages.commands", "messages.commands")));
+        } else {
+            Logger.log(Hex.translateHexColors(Config.getString("messages.commands", "messages.commands")));
+        }
     }
 }

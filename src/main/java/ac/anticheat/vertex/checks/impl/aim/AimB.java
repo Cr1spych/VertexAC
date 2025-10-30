@@ -29,11 +29,21 @@ public class AimB extends Check implements PacketCheck {
         if (PacketUtil.isRotation(event)) {
             float deltaYaw = Math.abs(aPlayer.rotationData.deltaYaw);
             float deltaPitch = Math.abs(aPlayer.rotationData.deltaPitch);
+            float yaw = aPlayer.rotationData.yaw;
+            float pitch = aPlayer.rotationData.pitch;
+            float moduloYaw = deltaYaw % 1.0F;
+            float moduloYaw2 = deltaYaw % 0.1F;
+            float moduloYaw3 = deltaYaw % 0.05F;
+            float roundYaw = (float)Math.round(yaw);
+            float moduloPitch = deltaPitch % 1.0F;
+            float moduloPitch2 = deltaPitch % 0.1F;
+            float moduloPitch3 = deltaPitch % 0.05F;
+            float roundPitch = (float)Math.round(pitch);
 
-            boolean yawRounded = Math.round(deltaYaw) - deltaYaw == 0 && deltaYaw != 0;
-            boolean pitchRounded = Math.round(deltaPitch) - deltaPitch == 0 && deltaPitch != 0;
+            boolean pitchRounded = Math.abs(pitch) < 90.0F && pitch > 0.0F && (double)deltaPitch > 0.0 && (moduloPitch == 0.0F || moduloPitch2 == 0.0F || moduloPitch3 == 0.0F || pitch == roundPitch);
+            boolean yawRounded = (double)deltaYaw > 0.0 && (moduloYaw == 0.0F || moduloYaw2 == 0.0F || moduloYaw3 == 0.0F || yaw == roundYaw);
 
-            if (yawRounded || pitchRounded) {
+            if (pitchRounded || yawRounded) {
                 buffer++;
                 if (buffer > maxBuffer) {
                     flag("округление");

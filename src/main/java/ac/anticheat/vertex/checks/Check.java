@@ -1,17 +1,16 @@
 package ac.anticheat.vertex.checks;
 
 import ac.anticheat.vertex.VertexAC;
+import ac.anticheat.vertex.api.events.impl.ViolationEvent;
 import ac.anticheat.vertex.beauty.PunishEffect;
 import ac.anticheat.vertex.managers.PlayerDataManager;
 import ac.anticheat.vertex.player.APlayer;
 import ac.anticheat.vertex.utils.Config;
 import ac.anticheat.vertex.utils.Hex;
 import ac.anticheat.vertex.utils.MessageUtils;
-import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -58,6 +57,7 @@ public abstract class Check {
 
         if (violations < maxViolations) {
             violations++;
+            VertexAC.getEventManager().call(new ViolationEvent(aPlayer.bukkitPlayer, this, violations));
             aPlayer.globalVl++;
             aPlayer.kaNpcVl++;
         }
