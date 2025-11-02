@@ -1,9 +1,17 @@
 package ac.anticheat.vertex.utils;
 
+import ac.anticheat.vertex.player.APlayer;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
+import com.github.retrooper.packetevents.event.PacketSendEvent;
+import com.github.retrooper.packetevents.netty.channel.ChannelHelper;
+import com.github.retrooper.packetevents.protocol.entity.data.EntityData;
+import com.github.retrooper.packetevents.protocol.entity.data.EntityMetadataProvider;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientEntityAction;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityMetadata;
+
+import java.util.List;
 
 public class PacketUtil {
 
@@ -29,5 +37,13 @@ public class PacketUtil {
             return wrapper.getAction() == WrapperPlayClientEntityAction.Action.START_FLYING_WITH_ELYTRA;
         }
         return false;
+    }
+
+    public static void push(APlayer player, PacketSendEvent event, int entityId, List<EntityData<?>> dataList) {
+        event.setCancelled(true);
+        WrapperPlayServerEntityMetadata metadata = new WrapperPlayServerEntityMetadata(entityId, (EntityMetadataProvider) dataList);
+        ChannelHelper.runInEventLoop(player.user.getChannel(), () -> {
+            player.user.sendPacketSilently(metadata);
+        });
     }
 }

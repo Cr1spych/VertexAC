@@ -98,8 +98,8 @@ checks:
     buffer-decrease: 0.05
     hit-cancel-ticks: 15
 
-  AimG*: # неестественные движения(экспериментальная)
-    max-violations: 15
+  AimG: # не настраивал
+    max-violations: 30
     remove-violations-after: 60 # seconds
     decay: 1
     enabled: true
@@ -107,9 +107,38 @@ checks:
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
     max-buffer: 1
     buffer-decrease: 0.25
-    hit-cancel-ticks: 0
-    zcr-threshold: 0.5
-    avg-delta-yaw-threshold: 3.0
+    hit-cancel-ticks: 20
+
+  AimH: # не настраивал
+    max-violations: 30
+    remove-violations-after: 60 # seconds
+    decay: 1
+    enabled: true
+    alert: true
+    punish-command: 'kick {player} #ff7b42Unfair Advantage'
+    max-buffer: 1
+    buffer-decrease: 0.25
+    hit-cancel-ticks: 15
+
+  AimI: # не настраивал
+    max-violations: 30
+    remove-violations-after: 60 # seconds
+    decay: 1
+    enabled: true
+    alert: true
+    punish-command: 'kick {player} #ff7b42Unfair Advantage'
+    max-buffer: 1
+    buffer-decrease: 0.25
+    hit-cancel-ticks: 15
+
+  AimJ:
+    max-violations: 30
+    remove-violations-after: 60 # seconds
+    decay: 1
+    enabled: true
+    alert: true
+    punish-command: 'kick {player} #ff7b42Unfair Advantage'
+    hit-cancel-ticks: 15
 
   AuraA: # ест и бьёт
     max-violations: 10
@@ -122,7 +151,7 @@ checks:
     buffer-decrease: 0.5
     hit-cancel-ticks: 100
 
-  AuraB: # удары через стену($$$elfcode)
+  AuraB: # удары через стену
     max-violations: 10
     remove-violations-after: 60 # seconds
     decay: 1

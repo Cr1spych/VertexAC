@@ -169,4 +169,16 @@ public class MathUtil {
     public static boolean isNearlySame(double d1, double d2, double number) {
         return Math.abs(d1 - d2) < number;
     }
+
+    public static double getGCD(double a, double b) {
+        if (a == 0 || b == 0) return 0;
+        a = Math.abs(a);
+        b = Math.abs(b);
+        while (b > 1.0E-9) {
+            double temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
 }
