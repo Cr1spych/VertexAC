@@ -140,6 +140,33 @@ checks:
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
     hit-cancel-ticks: 15
 
+  AimK:
+    max-violations: 15
+    remove-violations-after: 60 # seconds
+    decay: 1
+    enabled: true
+    alert: true
+    punish-command: 'kick {player} #ff7b42Unfair Advantage'
+    hit-cancel-ticks: 15
+
+  AimL:
+    max-violations: 10
+    remove-violations-after: 60 # seconds
+    decay: 1
+    enabled: true
+    alert: true
+    punish-command: 'kick {player} #ff7b42Unfair Advantage'
+    hit-cancel-ticks: 15
+
+  AimM:
+    max-violations: 5
+    remove-violations-after: 60 # seconds
+    decay: 1
+    enabled: true
+    alert: true
+    punish-command: 'kick {player} #ff7b42Unfair Advantage'
+    hit-cancel-ticks: 15
+
   AuraA: # ест и бьёт
     max-violations: 10
     remove-violations-after: 60 # seconds

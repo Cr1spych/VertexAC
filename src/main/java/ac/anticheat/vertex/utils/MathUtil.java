@@ -181,4 +181,37 @@ public class MathUtil {
         }
         return a;
     }
+
+    public static double mean(double[] arr) {
+        if (arr == null || arr.length == 0) return 0.0;
+        double sum = 0.0;
+        for (double v : arr) {
+            sum += v;
+        }
+        return sum / arr.length;
+    }
+
+    public static double symmetry(double[] arr) {
+        if (arr == null || arr.length < 4) return 1.0;
+        double mean = mean(arr);
+        double sym = 0.0;
+        int pairs = 0;
+        for (int i = 0; i < arr.length / 2; i++) {
+            double sum = arr[i] + arr[arr.length - 1 - i];
+            sym += Math.abs(sum - 2 * mean);
+            pairs++;
+        }
+        return pairs > 0 ? sym / pairs : 1.0;
+    }
+
+    public static double[] diff(List<Double> values) {
+        if (values == null || values.size() < 2) {
+            return new double[0];
+        }
+        double[] d = new double[values.size() - 1];
+        for (int i = 1; i < values.size(); i++) {
+            d[i - 1] = values.get(i) - values.get(i - 1);
+        }
+        return d;
+    }
 }
