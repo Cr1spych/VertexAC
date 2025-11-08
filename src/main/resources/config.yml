@@ -52,8 +52,8 @@ checks:
     enabled: true
     alert: true
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
-    max-buffer: 1
-    buffer-decrease: 0.1
+    max-buffer: 9
+    buffer-decrease: 0.5
     hit-cancel-ticks: 10
 
   AimC: # надеюсь кириешко не против
@@ -63,8 +63,8 @@ checks:
     enabled: true
     alert: true
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
-    max-buffer: 3
-    buffer-decrease: 0.25
+    max-buffer: 4
+    buffer-decrease: 0.5
     hit-cancel-ticks: 10
 
   AimD: # плавный аим
@@ -83,8 +83,8 @@ checks:
     enabled: true
     alert: true
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
-    max-buffer: 7
-    buffer-decrease: 0.5
+    max-buffer: 9
+    buffer-decrease: 1
     hit-cancel-ticks: 20
 
   AimF: # очень маленькие дельты
@@ -98,36 +98,36 @@ checks:
     buffer-decrease: 0.05
     hit-cancel-ticks: 15
 
-  AimG: # не настраивал
+  AimG:
     max-violations: 30
     remove-violations-after: 60 # seconds
     decay: 1
     enabled: true
     alert: true
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
-    max-buffer: 1
+    max-buffer: 3
     buffer-decrease: 0.25
     hit-cancel-ticks: 20
 
-  AimH: # не настраивал
+  AimH:
     max-violations: 30
     remove-violations-after: 60 # seconds
     decay: 1
     enabled: true
     alert: true
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
-    max-buffer: 1
-    buffer-decrease: 0.25
+    max-buffer: 4
+    buffer-decrease: 0.5
     hit-cancel-ticks: 15
 
-  AimI: # не настраивал
+  AimI:
     max-violations: 30
     remove-violations-after: 60 # seconds
     decay: 1
     enabled: true
     alert: true
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
-    max-buffer: 1
+    max-buffer: 2
     buffer-decrease: 0.25
     hit-cancel-ticks: 15
 
@@ -156,6 +156,8 @@ checks:
     enabled: true
     alert: true
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
+    max-buffer: 1
+    buffer-decrease: 0.25
     hit-cancel-ticks: 15
 
   AimM:
@@ -166,6 +168,27 @@ checks:
     alert: true
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
     hit-cancel-ticks: 15
+
+  AimN:
+    max-violations: 1 # не ссы брадок, всё под контролем
+    remove-violations-after: 60 # seconds
+    decay: 1
+    enabled: true
+    alert: true
+    punish-command: 'kick {player} #ff7b42Unfair Advantage'
+    hit-cancel-ticks: 100
+
+  AimO:
+    max-violations: 20
+    remove-violations-after: 60 # seconds
+    decay: 1
+    enabled: true
+    alert: true
+    punish-command: 'kick {player} #ff7b42Unfair Advantage'
+    distinct-threshold: 50 # если колво уникальных дельт < distinct-threshold -> чит(проверяется 100 дельт)
+    max-buffer: 8
+    buffer-decrease: 2
+    hit-cancel-ticks: 20
 
   AuraA: # ест и бьёт
     max-violations: 10
@@ -212,6 +235,17 @@ checks:
     punish-command: 'kick {player} #ff7b42Unfair Advantage'
     max-buffer: 1
     buffer-decrease: 0.25
+    hit-cancel-ticks: 20
+
+  AuraE: # атака без анимации
+    max-violations: 10
+    remove-violations-after: 60 # seconds
+    decay: 1
+    enabled: true
+    alert: true
+    punish-command: 'kick {player} #ff7b42Unfair Advantage'
+    max-buffer: 2
+    buffer-decrease: 0.5
     hit-cancel-ticks: 20
 
   # data

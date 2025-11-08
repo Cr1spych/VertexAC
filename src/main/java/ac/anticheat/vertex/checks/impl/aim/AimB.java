@@ -13,7 +13,7 @@ import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 public class AimB extends Check implements PacketCheck {
     public AimB(APlayer aPlayer) {
         super("AimB", aPlayer);
-        this.maxBuffer = Config.getInt(getConfigPath() + ".max-buffer", 5);
+        this.maxBuffer = Config.getInt(getConfigPath() + ".max-buffer", 9);
         this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.5);
     }
 
@@ -57,7 +57,7 @@ public class AimB extends Check implements PacketCheck {
 
     @Override
     public void onReload() {
-        this.maxBuffer = Config.getInt(getConfigPath() + ".max-buffer", 5);
+        this.maxBuffer = Config.getInt(getConfigPath() + ".max-buffer", 9);
             this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.5);
     }
 }

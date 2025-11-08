@@ -10,8 +10,8 @@ import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 public class AimG extends Check implements PacketCheck {
     public AimG(APlayer aPlayer) {
         super("AimG", aPlayer);
-        this.maxBuffer = Config.getDouble(getConfigPath() + ".max-buffer", 1);
-        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.05);
+        this.maxBuffer = Config.getDouble(getConfigPath() + ".max-buffer", 2);
+        this.bufferDecrease = Config.getDouble(getConfigPath() + ".buffer-decrease", 0.25);
     }
 
     private static final float minAmp = 0.009f;

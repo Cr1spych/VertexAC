@@ -46,8 +46,14 @@ public class AimL extends Check implements PacketCheck {
                 }
 
                 if (infinitives > 1 && Math.abs(Statistics.getAverage(deltaYaws)) > 3.2) {
-                    flag();
-                    infinitives = 0;
+                    buffer += bufferDecrease;
+                    if (buffer > maxBuffer) {
+                        flag();
+                        buffer = 0;
+                        infinitives = 0;
+                    }
+                } else {
+                    if (buffer > 0) buffer -= bufferDecrease;
                 }
                 deltaYaws.clear();
             }

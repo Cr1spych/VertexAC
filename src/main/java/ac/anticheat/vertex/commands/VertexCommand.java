@@ -61,6 +61,7 @@ public class VertexCommand implements CommandExecutor {
                 if (check instanceof PacketCheck packetCheck) {
                     packetCheck.onReload();
                 }
+                check.reload();
             }
         });
 

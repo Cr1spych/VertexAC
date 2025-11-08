@@ -19,12 +19,12 @@ import org.bukkit.scheduler.BukkitTask;
 public abstract class Check {
     private final String name;
     protected final APlayer aPlayer;
-    private final boolean enabled;
+    private boolean enabled;
     private final boolean experimental;
     private final String punishCommand;
-    private final boolean alert;
+    private boolean alert;
     private int violations;
-    private final int maxViolations;
+    private int maxViolations;
     public int hitCancelTicks;
     public int hitTicksToCancel;
     private Plugin plugin;
@@ -160,5 +160,12 @@ public abstract class Check {
 
     public int getMaxViolations() {
         return maxViolations;
+    }
+    
+    public void reload() {
+        this.enabled = Config.getBoolean(getConfigPath() + ".enabled", true);
+        this.alert = Config.getBoolean(getConfigPath() + ".alert", true);
+        this.maxViolations = Config.getInt(getConfigPath() + ".max-violations", 10);
+        this.hitCancelTicks = Config.getInt(getConfigPath() + ".hit-cancel-ticks", 20);
     }
 }
