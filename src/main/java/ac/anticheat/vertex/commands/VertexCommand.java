@@ -3,19 +3,17 @@ package ac.anticheat.vertex.commands;
 import ac.anticheat.vertex.VertexAC;
 import ac.anticheat.vertex.checks.Check;
 import ac.anticheat.vertex.checks.type.PacketCheck;
-import ac.anticheat.vertex.managers.CheckManager;
 import ac.anticheat.vertex.managers.PlayerDataManager;
 import ac.anticheat.vertex.player.APlayer;
 import ac.anticheat.vertex.utils.Config;
 import ac.anticheat.vertex.utils.Hex;
 import ac.anticheat.vertex.utils.Logger;
-import ac.anticheat.vertex.utils.kireiko.millennium.math.Statistics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
+// если ты доебатся до этот хуйня, я твоя рот ебать
 public class VertexCommand implements CommandExecutor {
 
     private final VertexAC plugin;
